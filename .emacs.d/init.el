@@ -114,8 +114,10 @@
 ;; remove trailing spaces before saving
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-;; auto revert mode
+;; auto revert mode (refresh buffers when changed on disk, asking for confirmation).
+;; Non file buffers (e.g: dired) don ask before refreshing
 (global-auto-revert-mode 1)
+(setq global-auto-revert-non-file-buffers t)
 ;; ask y/n instead of yes/no
 (fset 'yes-or-no-p 'y-or-n-p)
 ;; - redraw immediately when scrolling
@@ -140,6 +142,7 @@
 (define-key helm-map (kbd "TAB") #'helm-execute-persistent-action)
 (define-key helm-map (kbd "<backtab>") #'helm-find-files-up-one-level)
 (setq helm-buffer-max-length 50)
+(setq helm-completion-style helm-fuzzy)
 (add-to-list 'display-buffer-alist
 	     `(,(rx bos "*helm" (* not-newline) "*" eos)
                (display-buffer-in-side-window)
@@ -507,3 +510,7 @@
   :hook (python-mode . (lambda ()
                           (require 'lsp-pyright)
                           (lsp))))  ; or lsp-deferre
+
+;; small QoL improvements
+;; Remember and restore the last cursor location of opened files
+(save-place-mode 1)
