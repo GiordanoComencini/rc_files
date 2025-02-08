@@ -10,5 +10,12 @@ find() {
     fi
 }
 
+# Store shell history in a file on every command, to avoid losing it
+shopt -s histappend
+PROMPT_COMMAND='history -a; history -n'
+HISTSIZE=100000
+HISTFILESIZE=200000
+export HISTTIMEFORMAT="%F %T "
+
 # To change PATH, add something after : in the next line
 export PATH="$PATH:"
